@@ -20,6 +20,28 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# API Endpoints
+@app.get("/")
+async def root():
+    """
+    Root endpoint with API information.
+    """
+    return {
+        "message": "Welcome to the LLM Summarization API. Use /docs for API documentation.",
+        "endpoints": {
+            "GET /health": "Check the health status of the API.",
+            "POST /summarize": "Generate a summary of the provided text.",
+        }
+    }
+
+
+# Health check endpoint
+@app.get("/health")
+def health_check():
+    """Health check endpoint."""
+    return {"status": "healthy"}
+
+
 favicon_path = "static/favicon.ico"
 @app.get("/favicon.ico", include_in_schema=False)   # The keyword include_in_schema=False included in the decorator hides the path operation from the schema used to autogenerate API docs
 async def favicon():
