@@ -1,5 +1,6 @@
 from pydantic import BaseModel, Field
 from enum import Enum
+from typing import Optional
 
 # Enums for length and style options
 class LengthOption(str, Enum):
@@ -17,6 +18,7 @@ class SummarizationRequest(BaseModel):
     text: str = Field(..., description="The text to be summarized.")
     length: LengthOption = Field(LengthOption.MEDIUM, description="The desired length of the summary.")
     style: StyleType = Field(StyleType.PARAGRAPH, description="The style of the summary.")
+    api_key: Optional[str] = Field(None, description="API key for Gemini")
 
 # Response metadata model 
 class SummaryMetadata(BaseModel):

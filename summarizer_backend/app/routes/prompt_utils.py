@@ -29,6 +29,7 @@ def create_prompt(text: str, length: str, style: str) -> str:
         f"{SYSTEM_PROMPT}\n\n"
         f"Please summarize the following text {length_spec}.\n"
         f"{style_spec}\n\n"
+        f"Make sure the summary:\n- Captures the main ideas and key information\n- Is well-organized and easy to read\n- Maintains the original meaning and context\n- Is appropriate for the requested length and style.\n\n"
         f"Text to summarize:\n{text}\n"
     )
     return prompt
