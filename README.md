@@ -11,11 +11,11 @@ A **FastAPI microservice** for generating text summarizations using **Google Gem
 ```bash
 .
 ├── summarizer_backend
-    ├── app
-    └── ...
+│   ├── app
+│   └── ...
 ├── summarizer_frontend
-    ├── app
-    └── ...
+│   ├── app
+│   └── ...
 ├── requirements.txt
 ├── docker-compose.yml
 ├── README.md
