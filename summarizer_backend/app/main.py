@@ -3,7 +3,9 @@ from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from routes.models import SummarizationRequest, SummarizationResponse, SummaryMetadata
 from routes.prompt_utils import create_prompt
+from routes.llm_client import generate_summary
 from loguru import logger
+
 
 logger.add("logs/backend.log", rotation="10 MB", retention="2 days", level="INFO")
 
@@ -48,11 +50,6 @@ async def favicon():
     return JSONResponse(favicon_path)
 
 
-@app.get("/")
-async def read_root():
-    return {"message": "Welcome to the LLM Summarization API. Use /docs for API documentation."}
-
-
 @app.post("/summarize", response_model=SummarizationResponse)
 async def summarize(request: SummarizationRequest):
     """
@@ -74,7 +71,22 @@ async def summarize(request: SummarizationRequest):
         )
         logger.info(f"Generated prompt: {prompt}")
 
-        
+        # Generate summary using the LLM client
+        summary = await generate_summary(prompt, api_key=request.api_key)
+
+        if not summary:
+            logger.error("Failed to generate summary.")
+            return JSONResponse(status_code=500, content={"error": "Failed to generate summary."})
+
+        # Create response
+        return SummarizationResponse(
+            summary=summary,
+            metadata=SummaryMetadata(
+                word_count=len(summary.split()),
+                length=request.length,
+                style=request.style
+            )
+        )
 
     except Exception as e:
         logger.error(f"An error occurred: {e}")
