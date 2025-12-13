@@ -11,6 +11,7 @@ export function MainPage() {
   const [keyText, setKeyText] = React.useState("");
   const [showKey, setShowKey] = React.useState(false);
   const [showHelp, setShowHelp] = React.useState(false);
+  const [lastUsed, setLastUsed] = React.useState("summarize");
 
   const {
     result: result,
@@ -27,12 +28,17 @@ export function MainPage() {
   } = useAgent();
 
   const handleSummarize = () => {
+    setLastUsed("summarize");
     summarize(text, length, style, keyText);
   };
 
   const handleRunAgent = () => {
+    setLastUsed("agent");
     runAgent(text, length, style, keyText);
   };
+
+  const displayResult = lastUsed === "agent" ? agentResult : result;
+  const displayError = lastUsed === "agent" ? agentError : error;
 
   return (
     <main className="flex items-center justify-center pt-16 pb-4 bg-[#594838] min-h-screen">
@@ -59,7 +65,7 @@ export function MainPage() {
             isAgentLoading={isAgentLoading}
           />
 
-          <OutputSection result={result} error={error} />
+          <OutputSection result={displayResult} error={displayError} />
         </div>
       </div>
     </main>
