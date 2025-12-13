@@ -39,7 +39,7 @@ export function ApiKeyInput({
       </label>
       {showHelp && (
         <div className="mb-2 text-sm text-gray-900 bg-[#ded3ca] rounded-md text-center p-2">
-          Pokud nemáte API klíč, vytvořte si ho na{" "}
+          You can obtain your API key here:{" "}
           <a
             href="https://aistudio.google.com/app/api-keys"
             target="_blank"

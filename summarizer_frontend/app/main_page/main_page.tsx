@@ -2,6 +2,7 @@ import React from "react";
 import { InputSection } from "./components/InputSection";
 import { OutputSection } from "./components/OutputSection";
 import { useSummarization } from "./hooks/useSummarization";
+import { useAgent } from "./hooks/useAgent";
 
 export function MainPage() {
   const [text, setText] = React.useState("");
@@ -11,10 +12,26 @@ export function MainPage() {
   const [showKey, setShowKey] = React.useState(false);
   const [showHelp, setShowHelp] = React.useState(false);
 
-  const { result, isLoading, error, summarize } = useSummarization();
+  const {
+    result: result,
+    isLoading: isLoading,
+    error: error,
+    summarize,
+  } = useSummarization();
+
+  const {
+    result: agentResult,
+    isLoading: isAgentLoading,
+    error: agentError,
+    runAgent,
+  } = useAgent();
 
   const handleSummarize = () => {
     summarize(text, length, style, keyText);
+  };
+
+  const handleRunAgent = () => {
+    runAgent(text, length, style, keyText);
   };
 
   return (
@@ -38,6 +55,8 @@ export function MainPage() {
             setStyle={setStyle}
             onSummarize={handleSummarize}
             isLoading={isLoading}
+            onRunAgent={handleRunAgent}
+            isAgentLoading={isAgentLoading}
           />
 
           <OutputSection result={result} error={error} />
