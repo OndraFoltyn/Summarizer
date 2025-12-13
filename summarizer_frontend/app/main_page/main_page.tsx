@@ -7,6 +7,7 @@ export function MainPage() {
   const [style, setStyle] = React.useState("bullet");
   const [keyText, setKeyText] = React.useState("");
   const [showKey, setShowKey] = React.useState(false);
+  const [showHelp, setShowHelp] = React.useState(false);
   const [result, setResult] = React.useState("");
   const [isLoading, setIsLoading] = React.useState(false);
   const [error, setError] = React.useState("");
@@ -71,7 +72,35 @@ export function MainPage() {
             <div className="w-full">
               <label className="block mb-2 text-sm font-medium">
                 Gemini API Key:
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-4 h-4 inline ml-1 cursor-pointer"
+                  onClick={() => setShowHelp(!showHelp)}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z"
+                  />
+                </svg>
               </label>
+              {showHelp && (
+                <div className="mb-2 text-sm text-gray-900 bg-[#ded3ca] rounded-md text-center p-2">
+                  Pokud nemáte API klíč, vytvořte si ho na{" "}
+                  <a
+                    href="https://aistudio.google.com/app/api-keys"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-500 underline"
+                  >
+                    https://aistudio.google.com/app/api-keys
+                  </a>
+                </div>
+              )}
               <div className="flex">
                 <input
                   type={showKey ? "text" : "password"}
@@ -126,7 +155,7 @@ export function MainPage() {
               </div>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-col sm:flex-row gap-4 self-center">
               <label className="flex items-center gap-2">
                 <span className="text-sm font-medium">Length of summary:</span>
                 <select
